@@ -1,39 +1,20 @@
-extends Area2D
-signal hit
+extends CharacterBody2D
 
 @export var speed = 400
-var screen_size
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	hide()
-	screen_size = get_viewport_rect().size
 
+
+func get_input():
+	var input_dir = Input.get_vector("Move_left", "Move_right", "Move_up", "Move_down")
+	velocity = input_dir * speed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	var velocity = Vector2.ZERO
-	if Input.is_action_pressed("move_right"):
-		velocity.x +=1
-	if Input.is_action_pressed("Move_left"):
-		velocity.x -=1
-	if Input.is_action_pressed("Move_down"):
-		velocity.y -=1
-	if Input.is_action_pressed("Move_up"):
-		velocity.y +=1
-	
+func _physics_process(delta):
+	get_input()
+	$AnimatedSprite2D.animation = "walk"
+	$AnimatedSprite2D.flip_h = velocity.x < 0
 	if velocity.length() >0:
-		velocity = velocity.normalized()*speed
 		$AnimatedSprite2D.play()
 	else:
 		$AnimatedSprite2D.stop()
 	
-	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
-	
-	
-	$AnimatedSprite2D.animation = "walk"
-	$AnimatedSprite2D.flip_h = velocity.x < 0
-
-
-func _on_body_entered(body):
-	pass # Replace with function body.
+	move_and_slide()

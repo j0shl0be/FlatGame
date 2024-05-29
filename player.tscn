@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxy4ktmgodj2p"]
+[gd_scene load_steps=6 format=3 uid="uid://bxy4ktmgodj2p"]
 
 [ext_resource type="Texture2D" uid="uid://ddg45uggjc2y6" path="res://Animations/MartianFWD.png" id="1_esdw7"]
 [ext_resource type="Script" path="res://player.gd" id="1_vrjic"]
@@ -15,19 +15,22 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
-[node name="Player" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1uvt"]
+size = Vector2(50, 90)
+
+[node name="Player" type="CharacterBody2D"]
+disable_mode = 1
 script = ExtResource("1_vrjic")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(140, 143)
+position = Vector2(1, -2.99999)
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_kyjcb")
 animation = &"walk"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(120, 103, 160, 103, 160, 148, 165, 148, 165, 153, 170, 153, 170, 158, 175, 158, 175, 168, 160, 168, 160, 183, 165, 183, 165, 193, 150, 193, 150, 178, 130, 178, 130, 193, 115, 193, 115, 183, 120, 183, 120, 168, 105, 168, 105, 158, 110, 158, 110, 153, 115, 153, 115, 148, 120, 148)
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_f1uvt")
